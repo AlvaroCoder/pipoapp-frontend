@@ -1,11 +1,9 @@
 "use server"
+import { LOGIN_USER } from "@/conexion/register/login";
 import {SignJWT, jwtVerify} from "jose";
 import {cookies} from "next/headers";
-import {redirect} from "next/navigation";
-import { NextRequest, NextResponse } from "next/server";
 
 const secretKey = process.env.SECRET_TOKEN
-
 const key=new TextEncoder().encode(secretKey);
 const timeExpiration =  30 * 60 * 1000;
 
@@ -18,6 +16,7 @@ export async function encrypt(payload) {
     .sign(key);
 }
 
+// Funcion de des-encriptar
 export async function decrypt(input) {
     const {payload} = await jwtVerify(input, key, {
         algorithms: ["HS256"],
@@ -30,4 +29,31 @@ export async function getSession() {
     const session = (await cookies()).get("session")?.value;
     if(!session) return null;
     return await decrypt(session);
+}
+
+// Función de iniciar sesión
+export async function login(dataUser) {
+    const response = await LOGIN_USER(dataUser);
+    if (!response.ok) {
+        const msg = await response.json();
+        return {
+            error : true,
+            message : msg?.message
+        }
+    }
+    const jsonResponse = await response.json();
+    const date = new Date();
+    const expires = date.setHours(date.getHours()+24);
+    const user = {username : dataUser?.username ,access_token : jsonResponse?.access_token}
+    const session = await encrypt(user);
+    (await cookies()).set("session", session, {expires, httpOnly : true});
+    return {
+        error : false,
+        message : "Ingreso exitoso"
+    }   
+}
+
+// Funcion de cerrar sesión
+export async function logout() {
+    
 }

@@ -1,12 +1,16 @@
 'use client'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
-import { LOGIN_USER } from '@/conexion/register/login'
 import { useToast } from '@/hooks/use-toast'
+import { login } from '@/lib/authentication'
+import { Loader2 } from 'lucide-react'
+import { useRouter } from 'next/navigation'
 import React, { useState } from 'react'
 
 export default function FormLogin() {
     const {toast} =useToast();
+    const router = useRouter();
+
     const initialData = {username : "", password : ""}
     const [dataForm, setDataForm] = useState(initialData);
     const [loading, setLoading] = useState(false);
@@ -20,22 +24,21 @@ export default function FormLogin() {
     }
     const handleSubmit=async()=>{
         setLoading(true);
-        const response = await LOGIN_USER(dataForm);
-        if (response.ok) {
+        const response = await login(dataForm);
+        if (response.error) {
             toast({
-                title : "Exito",
-                description : "Iniciaste session exitosamente"
-             })
-             setDataForm(initialData);
-             setLoading(false);
-             return;
+                variant : "destructive",
+                title : "Error",
+                description : response?.message
+            });
+            setLoading(false);
+            return;
         }
-        const messageError = await response.json();
+        router.push("/dashboard")
         toast({
-            variant : "destructive",
-            title : "Error",
-            description : messageError?.message
-        });
+            title : "Exito",
+            description : 'Ingreso exitoso'
+        })
         setLoading(false)
     }
   return (
@@ -64,8 +67,9 @@ export default function FormLogin() {
             <Button
                 className="w-full mt-4 p-4 bg-rojoPasion hover:bg-rojoEncendido text-2xl" 
                 onClick={handleSubmit}
+                disabled={loading}
             >
-                <p>Iniciar Sesion</p>
+                {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <p>Iniciar Sesion</p>}
             </Button>
         </div>
     </div>
