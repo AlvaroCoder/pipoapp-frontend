@@ -14,7 +14,7 @@ export default {
 			grisClaro : "#8D99AE",
 			beigeClaro : "#EDF2F4",
 			rojoPasion :"#D90429",
-			
+			azulClaro : "#191A29",
   			background: 'hsl(var(--background))',
   			foreground: 'hsl(var(--foreground))',
   			card: {

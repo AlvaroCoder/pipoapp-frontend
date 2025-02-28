@@ -1,8 +1,12 @@
+import { WelcomeCard } from '@/components/Cards'
 import React from 'react'
 
 export default function Page() {
   return (
-    <div>Page</div>
+    <div className='flex-1 w-full p-8'>
+     <WelcomeCard/>
+      
+    </div>
   )
 }
     

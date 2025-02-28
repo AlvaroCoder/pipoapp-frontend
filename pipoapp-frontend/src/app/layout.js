@@ -13,7 +13,7 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata = {
-  title: "Pagina de Pipo",
+  title: "PipoApp",
   description: "Página de gestión interna para PIPO S.A.C",
 };
 

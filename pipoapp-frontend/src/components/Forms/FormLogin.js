@@ -6,6 +6,7 @@ import { Input } from '../ui/input';
 import { Button } from '../ui/button';
 import { Loader2 } from 'lucide-react';
 import { login } from '@/lib/authentication';
+import { InputPassword, InputUsername } from '../Inputs';
 
 export default function FormLogin() {
     const {toast} = useToast();
@@ -24,6 +25,8 @@ export default function FormLogin() {
     }
     const handleSubmit=async()=>{
         setLoading(true);
+        console.log(dataForm);
+        
         const response = await login(dataForm);
         if (response.error) {
             toast({
@@ -49,22 +52,13 @@ export default function FormLogin() {
                 >
                     Usuario
                 </label>
-                <Input
-                    name="username"
-                    value={dataForm.username}
-                    onChange={handleChangeInput}
-                />
+                <InputUsername valuesData={dataForm?.username} handleChange={handleChangeInput} />
             </div>
             <div className='mt-4'>
                 <label
                     htmlFor='password'
                 >Contraseña</label>
-                <Input
-                    name="password"
-                    type="password"
-                    value={dataForm?.password}
-                    onChange={handleChangeInput}
-                />
+                <InputPassword valuesData={dataForm?.password} handleChange={handleChangeInput} />
             </div>
             <div>
                 <Button
@@ -72,7 +66,7 @@ export default function FormLogin() {
                     onClick={handleSubmit}
                     disabled={loading}
                 >   
-                    {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <p className='text-md'>Iniciar Sesion</p>}
+                    {loading ? <Loader2 className="mr-2 h-4 w-4 animate-spin"/> : <p className='text-lg'>Iniciar Sesion</p>}
                 </Button>
             </div>
         </div>

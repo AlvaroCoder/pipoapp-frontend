@@ -5,7 +5,6 @@ import {SignJWT, jwtVerify} from "jose";
 import {cookies} from "next/headers";
 
 const SECRET_KEY = process.env.SECRET_KEY;
-console.log(SECRET_KEY);
 
 const key = new TextEncoder().encode(SECRET_KEY);
 const timeExpiration = 30*60*1000;
@@ -14,7 +13,7 @@ export async function encrypt(payload) {
     return new SignJWT(payload)
     .setProtectedHeader({alg : "HS256"})
     .setIssuedAt()
-    .setExpirationTime(new Date(Date.now() + timeExpiration))
+    .setExpirationTime('1 day')
     .sign(key);
 }
 
