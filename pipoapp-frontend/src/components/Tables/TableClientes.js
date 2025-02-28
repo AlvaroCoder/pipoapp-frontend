@@ -5,6 +5,8 @@ import { Button } from '../ui/button'
 import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
 import { Checkbox } from '../ui/checkbox'
 import { ButtonDialogAddClient } from '../Buttons'
+import EditIcon from '@mui/icons-material/Edit';
+import MoreVertIcon from '@mui/icons-material/MoreVert';
 
 export default function TableClientes({data=[], loadingData=false}) {
   const typesClient=[
@@ -31,13 +33,19 @@ export default function TableClientes({data=[], loadingData=false}) {
     setVariantTypesClient(newDataTypesClient)
   }
 
+  const handleAddClient=(dataClient={})=>{
+    setDataClients([...dataClients, dataClient]);
+  }
+  
   return (
     <section className='w-full'>
       <div className='flex items-center py-4'> 
         <Input
           placeholder="Buscar cliente ..."
         />
-        <ButtonDialogAddClient/>
+        <ButtonDialogAddClient
+          handleAddClient={handleAddClient}
+        />  
         <Button
           variant="ghost"
         >
@@ -63,17 +71,13 @@ export default function TableClientes({data=[], loadingData=false}) {
           <TableHeader>
             <TableRow>
               <TableHead>
-                <Checkbox
-                />
-              </TableHead>
-              <TableHead>
                 <h1>Nombre</h1>
               </TableHead>
               <TableHead>
                 <h1>Apellido</h1>
               </TableHead>
               <TableHead>
-                <h1>Deuda Actual</h1>
+                <h1>Deuda Actual (S/.)</h1>
               </TableHead>
               <TableHead>
                 <h1>Ultimo Pago</h1>
@@ -84,6 +88,9 @@ export default function TableClientes({data=[], loadingData=false}) {
               <TableHead>
                 <h1>Activo</h1>
               </TableHead>
+              <TableHead>
+                <h1><EditIcon/></h1>
+              </TableHead>
             </TableRow>
           </TableHeader>
           <TableBody>
@@ -93,16 +100,13 @@ export default function TableClientes({data=[], loadingData=false}) {
                 dataClients?.map((item, idx)=>(
                   <TableRow key={idx}>
                     <TableCell>
-                      <Checkbox/>
-                    </TableCell>
-                    <TableCell>
                       <p>{item?.nombre_cliente}</p>
                     </TableCell>
                     <TableCell>
                       <p>{item?.apellido_cliente}</p>
                     </TableCell>
                     <TableCell>
-                      <p>{item?.deuda_actual}</p>
+                      <p>S/.{item?.deuda_actual}</p>
                     </TableCell>
                     <TableCell>
                       <p>{item?.fecha_ultimo_pago}</p>
@@ -112,6 +116,9 @@ export default function TableClientes({data=[], loadingData=false}) {
                     </TableCell>
                     <TableCell>
                       <p>{item?.isactive}</p>
+                    </TableCell>
+                    <TableCell>
+                      <p><MoreVertIcon/></p>
                     </TableCell>
                   </TableRow>
                 ))

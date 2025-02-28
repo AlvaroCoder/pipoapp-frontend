@@ -32,9 +32,7 @@ export function useFetch(URL="") {
     useEffect(()=>{
         async function fetchData() {
             try {
-                const session = await getSession();
-                console.log(session);
-                
+                const session = await getSession();                
                 const response = await fetch(URL,{
                     headers : {
                         'Content-Type' : 'application/json',
