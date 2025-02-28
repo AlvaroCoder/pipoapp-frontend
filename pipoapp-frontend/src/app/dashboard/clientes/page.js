@@ -16,7 +16,8 @@ export default function Page() {
           <p>Cargando ...</p>:
           <TableClientes
           data={data}
-        />
+          
+          />
         }
       </section>
     </div>
