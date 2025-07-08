@@ -1,51 +1,34 @@
 'use client'
-import React, { useState } from 'react'
+import React, { useMemo, useState } from 'react'
 import { Input } from '../ui/input'
 import { Button } from '../ui/button'
-import { Table, TableBody, TableCaption, TableCell, TableHead, TableHeader, TableRow } from '../ui/table'
-import { Checkbox } from '../ui/checkbox'
 import { ButtonDialogAddClient } from '../Buttons'
-import EditIcon from '@mui/icons-material/Edit';
-import MoreVertIcon from '@mui/icons-material/MoreVert';
+
 import { TableClientsData } from './elements'
 
 export default function TableClientes({data=[], loadingData=false}) {
-  const typesClient=[
-    {name : "Todos", isSelected : true},
-    {name : "Activo", isSelected : false},
-    {name : "Inactivo", isSelected : false}
-  ]
   
   const [dataClients, setDataClients] = useState(data);
-  const [variantTypesClient, setVariantTypesClient] = useState(typesClient);
   const [queryInput, setQueryInput] = useState("");
-
-  const handleChangeTypesClient=(index)=>{
-    const newDataTypesClient = typesClient.map((item, idx)=>{
-      if (idx === index) {
-        return {
-          ...item,
-          isSelected : true
-        }
-      }
-      return {
-        ...item,
-        isSelected : false
-      }
-    });
-    setVariantTypesClient(newDataTypesClient)
-  }
 
   const handleAddClient=(dataClient={})=>{
     setDataClients([...dataClients, dataClient]);
   };
 
+  const handleChangeQueryInput=(e)=>{
+    setQueryInput(e.target.value);
+  }
 
+  const currentData = useMemo(() => {
+    return dataClients?.filter((item)=>item?.nombre_cliente?.toUpperCase().includes(queryInput.toUpperCase()) ||
+    item?.apellido_cliente?.toUpperCase().includes(queryInput.toUpperCase()));
+  },[queryInput, dataClients])
   return (
     <section className='w-full'>
       <div className='flex items-center py-4'> 
         <Input
           placeholder="Buscar cliente ..."
+          onChange={handleChangeQueryInput}
         />
         <ButtonDialogAddClient
           handleAddClient={handleAddClient}
@@ -57,7 +40,7 @@ export default function TableClientes({data=[], loadingData=false}) {
         </Button>
       </div>
       <TableClientsData
-        data={dataClients}
+        data={currentData}
       />
     </section>
   )

@@ -5,7 +5,6 @@ import HomeIcon from '@mui/icons-material/Home';
 import PersonIcon from '@mui/icons-material/Person';
 import KeyboardDoubleArrowLeftIcon from '@mui/icons-material/KeyboardDoubleArrowLeft';
 import KeyboardDoubleArrowRightIcon from '@mui/icons-material/KeyboardDoubleArrowRight';
-import AccountBalanceWalletIcon from '@mui/icons-material/AccountBalanceWallet';
 import Link from 'next/link';
 import { usePathname } from 'next/navigation';
 
@@ -25,12 +24,6 @@ export default function SidebarNavigation() {
             routeName : "Clientes",
             routePath :"/dashboard/clientes",
             routeIcon : PersonIcon,
-            selected : false
-        },
-        {
-            routeName : "Caja Chica",
-            routePath : "/dashboard/caja",
-            routeIcon : AccountBalanceWalletIcon,
             selected : false
         }
     ]

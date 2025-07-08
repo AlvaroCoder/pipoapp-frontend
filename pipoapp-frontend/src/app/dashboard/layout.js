@@ -5,7 +5,7 @@ export default function Layout({children}) {
   return (
     <div className='w-full min-h-screen flex flex-row '>
         <SideBarNavigation/>
-        <div className='w-full h-screen flex flex-col overflow-y-hidden'>
+        <div className='w-full min-h-screen flex flex-col overflow-y-hidden'>
             <TopBarNavigation/>
             {children}
         </div>
